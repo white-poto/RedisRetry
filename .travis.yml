@@ -9,13 +9,11 @@ php:
 install:
  - composer self-update
  - composer install
- -  wget https://github.com/antirez/redis/archive/2.8.20.tar.gz
+ - wget https://github.com/antirez/redis/archive/2.8.20.tar.gz
  - mv 2.8.20.tar.gz redis-2.8.20.tar.gz
  - tar zxvf redis-2.8.20.tar.gz
  - cd redis-2.8.20
  - make
  - ./src/redis-server ./redis.conf >> /dev/null &
 
-
-
-script: php ./tests/simple.php
+script: phpunit

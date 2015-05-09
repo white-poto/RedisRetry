@@ -6,11 +6,12 @@
  * Time: 15:20
  */
 
-require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . 'autoload.php';
+error_reporting(E_ALL);
+require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' .DIRECTORY_SEPARATOR . 'autoload.php';
 
-class Redis extends \Jenner\RedisRetry\Redis{}
 
-$redis = new Redis();
+
+$redis = new \Jenner\RedisRetry\Redis();
 $redis->connect('127.0.0.1', 6379);
 $set_result = $redis->set('1', 1);
 var_dump($set_result);

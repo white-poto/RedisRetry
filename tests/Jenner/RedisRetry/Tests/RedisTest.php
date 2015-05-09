@@ -41,7 +41,7 @@ class RedisTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testRestart(){
-        exec('redis-server --port 6379 >> /dev/null & ');
+        exec('./src/redis-server ./redis.conf >> /dev/null & ');
         try{
             $this->redis->set('start', 'start');
             $this->assertEquals('start', $this->redis->get('start'));
