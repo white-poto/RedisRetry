@@ -15,5 +15,6 @@ install:
  - cd redis-2.8.20
  - make
  - ./src/redis-server ./redis.conf >> /dev/null &
+ - cd ..
 
 script: phpunit
