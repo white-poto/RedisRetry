@@ -21,6 +21,7 @@ class RedisRetry extends \Redis {
     private $password;
 
     private $persistent;
+    
 
     /**
      * 重试次数
