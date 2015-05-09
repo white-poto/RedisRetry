@@ -8,7 +8,7 @@
          stopOnFailure="false"
          syntaxCheck="false">
     <testsuites>
-        <testsuite name="Sinergi Config Test Suite">
+        <testsuite name="Redis Retry Test Suite">
             <directory>./tests/Jenner/RedisRetry/</directory>
         </testsuite>
     </testsuites>
