@@ -14,7 +14,7 @@ install:
  - tar zxvf redis-2.8.20.tar.gz
  - cd redis-2.8.20
  - make
- - ./src/redis-server ./redis.conf
+ - ./src/redis-server ./redis.conf >> /dev/null &
 
 
 
