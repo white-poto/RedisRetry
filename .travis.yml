@@ -17,4 +17,6 @@ install:
  - ./src/redis-server ./redis.conf >> /dev/null &
  - cd ..
 
+before_script: phpenv config-add php.redis.ini
+
 script: phpunit
