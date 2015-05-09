@@ -31,7 +31,7 @@ class RedisTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testFail(){
-        exec('redis-cli -p 6379 shutdown >> /dev/null &');
+        exec('./redis-2.8.20/src/redis-cli -p 6379 shutdown >> /dev/null &');
         try{
             $this->redis->set('test', 'test');
         }catch (\Exception $e){
@@ -41,7 +41,7 @@ class RedisTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testRestart(){
-        exec('./src/redis-server ./redis.conf >> /dev/null & ');
+        exec('./redis-2.8.20/src/redis-server ./redis.conf >> /dev/null & ');
         try{
             $this->redis->set('start', 'start');
             $this->assertEquals('start', $this->redis->get('start'));
