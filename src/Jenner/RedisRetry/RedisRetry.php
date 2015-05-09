@@ -22,6 +22,34 @@ class RedisRetry extends \Redis {
 
     private $persistent;
 
+    /**
+     * 重试次数
+     * @var
+     */
+    private $retry;
+
+    /**
+     * 重试延迟
+     * @var
+     */
+    private $delay;
+
+    public function __construct(){
+        if(!defined('REDIS_RETRY_TIMES')){
+            $this->retry = 2;
+        }else{
+            $this->retry = REDIS_RETRY_TIMES;
+        }
+
+        if(!defined('REDIS_RETRY_DELAY')){
+            $this->delay = 1000 * 1000;
+        }else{
+            $this->delay = REDIS_RETRY_DELAY;
+        }
+
+        parent::__construct();
+    }
+
     public function connect($host, $port = 6379, $timeout = 0.0)
     {
         $this->host = $host;
@@ -48,8 +76,10 @@ class RedisRetry extends \Redis {
         return $this->retry(array('parent', 'auth'), array($password));
     }
 
-    public function retry($fun, array $params, $retry = 2)
+    public function retry($fun, array $params)
     {
+        $retry = $this->retry;
+
         while ($retry-- > 0) {
             try {
                 return call_user_func_array($fun, $params);
@@ -63,14 +93,14 @@ class RedisRetry extends \Redis {
                     $connect_result = $this->connect($this->host, $this->port, $this->timeout);
                 }
                 if ($connect_result === false) {
-                    sleep(1);
+                    usleep($this->delay);
                     continue;
                 }
 
                 if (!empty($this->password)) {
                     $auth_result = parent::auth($this->password);
                     if ($auth_result === false) {
-                        sleep(1);
+                        usleep($this->delay);
                         continue;
                     }
                 }
