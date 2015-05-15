@@ -24,5 +24,5 @@ When we are running a php daemon process, it's possible that our program can not
 The RedisRetry will reconnect to the redis-server when the connection is failed.
 
 You can define two const to control the times to retry and the time to sleep(wait to retry the connection).
-REDIS_RETRY_TIMES - The times to retry the connection.
-REDIS_RETRY_DELAY - The time to sleep
+ - REDIS_RETRY_TIMES - The times to retry the connection.
+ - REDIS_RETRY_DELAY - The time to sleep
