@@ -10,7 +10,8 @@
 namespace Jenner\RedisRetry;
 
 
-class RedisRetry extends \Redis {
+class RedisRetry extends \Redis
+{
 
     private $host;
 
@@ -21,7 +22,7 @@ class RedisRetry extends \Redis {
     private $password;
 
     private $persistent;
-    
+
 
     /**
      * 重试次数
@@ -35,16 +36,17 @@ class RedisRetry extends \Redis {
      */
     private $delay;
 
-    public function __construct(){
-        if(!defined('REDIS_RETRY_TIMES')){
+    public function __construct()
+    {
+        if (!defined('REDIS_RETRY_TIMES')) {
             $this->retry = 2;
-        }else{
+        } else {
             $this->retry = REDIS_RETRY_TIMES;
         }
 
-        if(!defined('REDIS_RETRY_DELAY')){
+        if (!defined('REDIS_RETRY_DELAY')) {
             $this->delay = 1000 * 1000;
-        }else{
+        } else {
             $this->delay = REDIS_RETRY_DELAY;
         }
 
@@ -85,9 +87,10 @@ class RedisRetry extends \Redis {
             try {
                 return call_user_func_array($fun, $params);
             } catch (\RedisException $e) {
-                try{
+                try {
                     $this->close();
-                }catch (\RedisException $e){}
+                } catch (\RedisException $e) {
+                }
                 if ($this->persistent === true) {
                     $connect_result = $this->pconnect($this->host, $this->port, $this->timeout);
                 } else {
@@ -108,9 +111,9 @@ class RedisRetry extends \Redis {
             }
         }
 
-        if($e instanceof \RedisException){
+        if (isset($e) && $e instanceof \RedisException) {
             throw $e;
-        }else{
+        } else {
             throw new \RedisException('redis retry failed');
         }
     }
