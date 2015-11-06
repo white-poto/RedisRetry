@@ -1,4 +1,8 @@
 # RedisRetry
+[![Latest Stable Version](https://poser.pugx.org/jenner/redis_retry/v/stable)](https://packagist.org/packages/jenner/redis_retry) 
+[![Total Downloads](https://poser.pugx.org/jenner/redis_retry/downloads)](https://packagist.org/packages/jenner/redis_retry) 
+[![Latest Unstable Version](https://poser.pugx.org/jenner/redis_retry/v/unstable)](https://packagist.org/packages/jenner/redis_retry) 
+[![License](https://poser.pugx.org/jenner/redis_retry/license)](https://packagist.org/packages/jenner/redis_retry)
 A Redis wrapper which can retry to connect when the connection is closed by some reason.
 It will not affect other code. What you need to do is just adding 'use \Jenner\RedisRetry\Redis' in your code where you use the \Redis class.
 
