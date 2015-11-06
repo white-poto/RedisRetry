@@ -8,20 +8,24 @@
 
 namespace Jenner\RedisRetry\Tests;
 
+use Jenner\RedisRetry\Redis;
+
 class RedisTest extends \PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var Redis
+     */
     private $redis;
 
     public function setUp()
     {
         try{
-            $this->redis = new \Jenner\RedisRetry\Redis();
+            $this->redis = new Redis();
             $this->redis->connect('127.0.0.1', 6379);
         }catch (\Exception $e){
             $this->assertEquals('1', $e);
         }
-
     }
 
     public function testGet()
@@ -31,7 +35,10 @@ class RedisTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testFail(){
-        exec('redis-cli -p 6379 shutdown 2>&1 >> /dev/null &');
+        if(gethostname() != 'huyanping'){
+            $this->markTestSkipped();
+        }
+        exec('./redis-2.8.20/src/redis-cli -p 6379 shutdown >> /dev/null &');
         try{
             $this->redis->set('test', 'test');
         }catch (\Exception $e){
@@ -41,7 +48,10 @@ class RedisTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testRestart(){
-        exec('nohup redis-server 2>&1 >> /dev/null & ');
+        if(gethostname() != 'huyanping'){
+            $this->markTestSkipped();
+        }
+        exec('./redis-2.8.20/src/redis-server ./redis.conf >> /dev/null & ');
         try{
             $this->redis->set('start', 'start');
             $this->assertEquals('start', $this->redis->get('start'));
