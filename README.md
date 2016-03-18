@@ -25,7 +25,7 @@ $redis->select(1);
 $redis->set('key', 'value');
 ```
 
-When we are running a php daemon process, it's possible that our program can not connect to the redis-server or the connection is close by some reason that we don't know.
+When we are running a php daemon process, it's possible that our program can not connect to the redis-server or the connection might be close for some reason that we don't know.
 The RedisRetry will reconnect to the redis-server when the connection is failed.
 
 You can define two const to control the times to retry and the time to sleep(wait to retry the connection).
