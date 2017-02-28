@@ -8,7 +8,15 @@
 
 namespace Jenner\RedisRetry;
 
-
+/**
+ * Class Redis
+ * @package Jenner\RedisRetry
+ *
+ * @method void connect($host, $port = 6379, $timeout = 0.0, $retry_interval = 0)
+ * @method void pconnect($host, $port = 6379, $timeout = 0.0)
+ * @method void auth($password)
+ * @method void select($database)
+ */
 class Redis
 {
     private $redis;

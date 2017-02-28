@@ -23,12 +23,16 @@ class RedisRetry extends \Redis
 
     private $persistent;
 
+    private $database;
+
 
     /**
      * 重试次数
      * @var
      */
     private $retry;
+
+    private $retry_interval = 0;
 
     /**
      * 重试延迟
@@ -53,11 +57,12 @@ class RedisRetry extends \Redis
         parent::__construct();
     }
 
-    public function connect($host, $port = 6379, $timeout = 0.0)
+    public function connect($host, $port = 6379, $timeout = 0.0, $retry_interval = 0)
     {
         $this->host = $host;
         $this->port = $port;
         $this->timeout = $timeout;
+        $this->retry_interval = $retry_interval;
         $this->persistent = false;
 
         return parent::connect($host, $port, $timeout);
@@ -77,6 +82,12 @@ class RedisRetry extends \Redis
     {
         $this->password = $password;
         return $this->retry(array('parent', 'auth'), array($password));
+    }
+
+    public function select($database)
+    {
+        $this->database = $database;
+        return $this->retry(array('parent', 'select'), array($database));
     }
 
     public function retry($fun, array $params)
@@ -104,6 +115,13 @@ class RedisRetry extends \Redis
                 if (!empty($this->password)) {
                     $auth_result = parent::auth($this->password);
                     if ($auth_result === false) {
+                        usleep($this->delay);
+                        continue;
+                    }
+                }
+                if (!empty($this->database)) {
+                    $select_result = parent::select($this->database);
+                    if ($select_result === false) {
                         usleep($this->delay);
                         continue;
                     }
